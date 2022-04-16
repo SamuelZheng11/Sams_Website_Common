@@ -35,7 +35,7 @@ namespace SamsWebsite.Common.MongoDB
             services.AddSingleton<IRepository<T>>(serviceProvider => 
             {
                 var database = serviceProvider.GetService<IMongoDatabase>();
-                return new MongoRepository<T>(database!, "Education");
+                return new MongoRepository<T>(database!, collectionName);
             });
 
             return services;
