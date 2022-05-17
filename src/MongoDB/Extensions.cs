@@ -10,7 +10,7 @@ namespace SamsWebsite.Common.MongoDB
 {
     public static class Extensions
     {
-        public static IServiceCollection AddMongo(this IServiceCollection services)
+        public static IServiceCollection AddMongo(this IServiceCollection services, bool isProd)
         {
             // Configure MongoDB and Serializers for readability
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
@@ -21,7 +21,15 @@ namespace SamsWebsite.Common.MongoDB
                 var serviceSettings = configuration!.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
                 var mongoDbSettings = configuration!.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
 
-                var mongoClient = new MongoClient(mongoDbSettings.ConnectionString);
+                MongoClient mongoClient;
+
+                if (isProd) {
+                    var settings = MongoClientSettings.FromConnectionString(mongoDbSettings.ProdConnectionString);
+                    mongoClient = new MongoClient(settings);
+                } else {
+                    mongoClient = new MongoClient(mongoDbSettings.ConnectionString);
+                }
+
                 return mongoClient.GetDatabase(serviceSettings.ServiceName);
             });
 
