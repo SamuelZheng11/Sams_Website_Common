@@ -8,6 +8,6 @@ namespace SamsWebsite.Common.Settings
 
         public string ConnectionString => $"mongodb://{Host}:{Port}";
 
-        public string ProdConnectionString => $"mongodb+srv://DbObserver:passATword1@samswebsitedb.55eaz.mongodb.net";
+        public string ProdConnectionString => $"REDACTED";
     }
 }
